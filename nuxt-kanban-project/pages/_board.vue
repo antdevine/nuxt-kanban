@@ -1,28 +1,27 @@
 <template>
   <div>
-    <ul v-for="(board, index) in kanbanData" :key="index">
-      <NuxtLink :to="`${index}`">
-        <li>{{ board.name }}</li>
-      </NuxtLink>
-    </ul>
+    <h1>{{ this.board }}</h1>
+    <p>Path: {{ $route.path }}</p>
+    
+    {{ kanbanData[this.board].name }}
+
+  <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index">
+    {{ columns }}
+  </div>
+
+    
   </div>
 </template>
-
-<script>
-export default {
-  name: 'IndexPage'
-}
-</script>
-
-
-
 <script>
   export default {
-    components: {
+    async asyncData({ params }) {
+      const board = params.board
+      return { board }
     },
     data() {
       return {
         kanbanData: [],
+        boardName: '',
         boards: 
         [
           {
@@ -457,6 +456,7 @@ export default {
     methods: {
       feedData() {
         this.kanbanData = this.boards;
+        console.log(this.kanbanData, 'this.kanbanData');
       }
     },
     beforeMount() {
