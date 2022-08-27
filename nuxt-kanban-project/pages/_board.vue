@@ -5,10 +5,12 @@
     
     {{ kanbanData[this.board].name }}
 
-  <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index">
-    {{ columns }}
-  </div>
-
+    <div class="flex justify-between">
+      <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index">
+        <div class="column-name">{{ columns.name }}</div>
+        <div class="column-tasks">{{ columns.tasks }}</div>
+      </div>
+    </div>
     
   </div>
 </template>

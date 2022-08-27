@@ -1,8 +1,11 @@
 <template>
     <div>
         <NuxtLink to="/">
-            Home
+            <NuxtLogo />
         </NuxtLink>
+
+        ALL BOARDS ({{ boardTotal }})
+
         <ul v-for="(board, index) in kanbanData" :key="index">
         <NuxtLink :to="`${index}`">
             <li>{{ board.name }}</li>
@@ -12,12 +15,16 @@
 </template>
 
 <script>
+  import NuxtLogo from '../components/NuxtLogo.vue';
+
   export default {
     name: 'Navigation',
     components: {
+        NuxtLogo,
     },
     data() {
       return {
+        boardTotal: 0,
         kanbanData: [],
         boards: 
         [
@@ -453,10 +460,14 @@
     methods: {
       feedData() {
         this.kanbanData = this.boards;
+      },
+      boardAmount() {
+        this.boardTotal = this.kanbanData.length;
       }
     },
     beforeMount() {
       this.feedData();
+      this.boardAmount();
     },
   }
 </script>
