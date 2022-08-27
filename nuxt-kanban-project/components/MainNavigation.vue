@@ -17,11 +17,11 @@
 </template>
 
 <script>
-  import NuxtLogo from '../components/NuxtLogo.vue';
-  import ContrastMode from '../components/ContrastMode.vue';
+  import NuxtLogo from './NuxtLogo.vue';
+  import ContrastMode from './ContrastMode.vue';
 
   export default {
-    name: 'Navigation',
+    name: 'MainNavigation',
     components: {
         NuxtLogo,
         ContrastMode
