@@ -11,16 +11,20 @@
             <li>{{ board.name }}</li>
         </NuxtLink>
         </ul>
+
+        <ContrastMode />
     </div>
 </template>
 
 <script>
   import NuxtLogo from '../components/NuxtLogo.vue';
+  import ContrastMode from '../components/ContrastMode.vue';
 
   export default {
     name: 'Navigation',
     components: {
         NuxtLogo,
+        ContrastMode
     },
     data() {
       return {

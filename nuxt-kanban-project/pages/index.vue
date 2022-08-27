@@ -1,11 +1,12 @@
 <template>
   <div>
-    Homepage
+    This is the Homepage
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'IndexPage'
+  name: 'IndexPage',
 }
 </script>
