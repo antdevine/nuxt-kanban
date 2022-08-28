@@ -1,9 +1,11 @@
 <template>
-  <div>
-    <h1>{{ this.board }}</h1>
-    <p>Path: {{ $route.path }}</p>
-    
-    {{ kanbanData[this.board].name }}
+  <div>    
+    <h1>{{ kanbanData[this.board].name }}</h1>
+
+    <TaskModalCreate :tasks="kanbanData[this.board].columns" />
+    <button @click="modalState">
+        Select {{ modal == 'hidden' ? 'show' : 'hidden' }} Mode
+    </button>
 
     <div class="flex justify-between">
       <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index" :type="columns.name">
@@ -15,15 +17,26 @@
 </template>
 <script>
   import ColumnTasks from '@/components/ColumnTasks.vue';
+  import TaskModalCreate from '@/components/TaskModalCreate.vue';
+  import { mapState } from 'vuex';
 
   export default {
     components: {
-      ColumnTasks
+      ColumnTasks,
+      TaskModalCreate
     },
     async asyncData({ params }) {
       const board = params.board
       return { board }
     },
+
+    fetch ({ store }) {
+        store.commit('modal')
+    },
+    computed: mapState([
+        'modal'
+    ]),
+
     data() {
       return {
         kanbanData: [],
@@ -463,6 +476,9 @@
       feedData() {
         this.kanbanData = this.boards;
         console.log(this.kanbanData, 'this.kanbanData');
+      },
+      modalState () {
+          this.$store.commit('modalState', this.modal == 'hidden' ? 'show' : 'hidden');
       }
     },
     beforeMount() {

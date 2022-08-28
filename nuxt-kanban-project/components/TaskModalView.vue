@@ -12,7 +12,7 @@
 
 <script>
     export default {
-        name: 'TaskModal',
+        name: 'TaskModalView',
         data() {
             return {
             }

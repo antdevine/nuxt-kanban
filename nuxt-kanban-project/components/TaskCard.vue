@@ -2,7 +2,7 @@
     <div>
         {{task.title}}
         Completed {{subTaskComplete}} of {{task.subtasks.length}} tasks
-        <TaskModal :task="task" :subTaskComplete="subTaskComplete" />
+        <TaskModalView :task="task" :subTaskComplete="subTaskComplete" />
 
         <button @click="modalState">
             Select {{ modal == 'hidden' ? 'show' : 'hidden' }} Mode
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import TaskModal from "./TaskModal.vue";
+import TaskModalView from "./TaskModalView.vue";
 import { mapState } from 'vuex';
 
     export default {
     name: "TaskCard",
-    components: { TaskModal },
+    components: { TaskModalView },
 
     fetch ({ store }) {
         store.commit('modal')
