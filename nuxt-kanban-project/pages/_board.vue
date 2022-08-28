@@ -7,19 +7,18 @@
 
     <div class="flex justify-between">
       <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index" :type="columns.name">
-        <h2>{{ columns.name }}</h2>
-        <TaskCard :tasks="columns.tasks" />
+        <ColumnTasks :tasks="columns.tasks" :columnName="columns.name" />
       </div>
     </div>
     
   </div>
 </template>
 <script>
-  import TaskCard from '@/components/TaskCard.vue';
+  import ColumnTasks from '@/components/ColumnTasks.vue';
 
   export default {
     components: {
-      TaskCard
+      ColumnTasks
     },
     async asyncData({ params }) {
       const board = params.board

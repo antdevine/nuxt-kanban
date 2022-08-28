@@ -1,25 +1,53 @@
 <template>
     <div>
-        <div v-for="(task, index) in tasks" :key="index">
-            {{task.title}}
-            <TasksSubTasksCount :subTask="task.subtasks" />
-        </div>
+        {{task.title}}
+        Completed {{subTaskComplete}} of {{task.subtasks.length}} tasks
+        <TaskModal :task="task" :subTaskComplete="subTaskComplete" />
+
+        <button @click="modalState">
+            Select {{ modal == 'hidden' ? 'show' : 'hidden' }} Mode
+        </button>
     </div>
 </template>
 
 <script>
-import TasksSubTasksCount from "./TasksSubTasksCount.vue";
+import TaskModal from "./TaskModal.vue";
+import { mapState } from 'vuex';
+
     export default {
     name: "TaskCard",
-    components: {TasksSubTasksCount},
+    components: { TaskModal },
+
+    fetch ({ store }) {
+        store.commit('modal')
+    },
+    computed: mapState([
+        'modal'
+    ]),
+
     data() {
         return {
-            
+            subTaskComplete: 0,
         };
     },
+    methods: {
+        subTaskCompletedCount() {
+            this.task.subtasks.map(s => {
+                if (s.isCompleted) {
+                    this.subTaskComplete++;
+                }
+            });
+        },
+        modalState () {
+            this.$store.commit('modalState', this.modal == 'hidden' ? 'show' : 'hidden');
+        }
+    },
+    beforeMount() {
+        this.subTaskCompletedCount();
+    },
     props: {
-        tasks: {
-            type: Array,
+        task: {
+            type: Object,
             required: false
         },
     },
