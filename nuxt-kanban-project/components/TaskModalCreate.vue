@@ -1,8 +1,11 @@
 <template>
     <div>
         <h2>Add new task</h2>
-        <input type="text" placeholder="Enter Title" required v-model="inputValue" />
-        <button @click="$emit('newTask', inputValue)">Create Task</button>
+        <form @submit.prevent="newTask">
+            <input type="text" placeholder="Enter Title" required v-model="taskTitle" />
+            <input type="text" placeholder="Status" required v-model="taskStatus" />
+            <button>Create Task</button>
+        </form>
     </div>
 </template>
 
@@ -14,10 +17,32 @@ NEED TO HIDE AND SHOW THE MODAL TOO, I HAVE ADDED THE STATE TO THE BOARD.VUE SO 
         name: 'TaskModalCreate',
         data() {
             return {
+                taskTitle: '',
+                taskStatus: '',
+                newTaskItem: {}
             }
         },
         methods: {
-            
+            newTask() {
+                const title = {"title": this.taskTitle};
+                const status = {"status": this.taskStatus};
+                this.newTaskItem = {
+                    ...title, 
+                    ...status,
+                    "description": "",
+                    "subtasks": [
+                        {
+                        "title": "Sign up page",
+                        "isCompleted": true
+                        },
+                    ]
+                };
+              
+                this.$emit('newTask', this.newTaskItem);
+                this.taskTitle = '';
+                this.taskStatus = '';
+                this.newTaskItem = '';
+            }
         },
         props: {
             tasks: {

@@ -2,7 +2,7 @@
   <div>    
     <h1>{{ kanbanData[this.board].name }}</h1>
 
-    <TaskModalCreate :tasks="kanbanData[this.board].columns" />
+    <TaskModalCreate :tasks="kanbanData[this.board].columns" @newTask="createNewTask" />
     <button @click="modalState">
         Select {{ modal == 'hidden' ? 'show' : 'hidden' }} Mode
     </button>
@@ -479,6 +479,14 @@
       },
       modalState () {
           this.$store.commit('modalState', this.modal == 'hidden' ? 'show' : 'hidden');
+      },
+      createNewTask(value) {
+        this.kanbanData[this.board].columns.map((column) => {
+          console.log(value.status, 'value.status');
+           if (column.name === value.status) {
+              column.tasks.push(value);
+            }
+        });
       }
     },
     beforeMount() {
