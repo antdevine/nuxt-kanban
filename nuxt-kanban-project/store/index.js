@@ -1,6 +1,7 @@
 export const state = () => ({
     contrast: 'light',
-    modal: 'hidden'
+    modal: 'hidden',
+    modalContent: {},
   });
   
   export const mutations = {
@@ -9,5 +10,8 @@ export const state = () => ({
     },
     modalState (state, payload) {
       state.modal = payload;
+    },
+    modalContentState (state, payload) {
+      state.modalContent = payload;
     },
   }

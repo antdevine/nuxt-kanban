@@ -2,10 +2,11 @@
   <div>    
     <h1>{{ kanbanData[this.board].name }}</h1>
 
+    <div v-if="this.modalContent.title && modal == 'show'">
+      <TaskModalView :task="modalContent" :subTaskComplete="subTaskComplete" />
+    </div>
+
     <TaskModalCreate :tasks="kanbanData[this.board].columns" @newTask="createNewTask" />
-    <button @click="modalState">
-        Select {{ modal == 'hidden' ? 'show' : 'hidden' }} Mode
-    </button>
 
     <div class="flex justify-between">
       <div v-for="(columns, index) in kanbanData[this.board].columns" :key="index" :type="columns.name">
@@ -16,6 +17,7 @@
   </div>
 </template>
 <script>
+  import TaskModalView from "@/components/TaskModalView.vue";
   import ColumnTasks from '@/components/ColumnTasks.vue';
   import TaskModalCreate from '@/components/TaskModalCreate.vue';
   import { mapState } from 'vuex';
@@ -23,7 +25,8 @@
   export default {
     components: {
       ColumnTasks,
-      TaskModalCreate
+      TaskModalCreate,
+      TaskModalView
     },
     async asyncData({ params }) {
       const board = params.board
@@ -31,16 +34,18 @@
     },
 
     fetch ({ store }) {
-        store.commit('modal')
+        store.commit('modal', 'modalContent')
     },
     computed: mapState([
-        'modal'
+        'modal',
+        'modalContent'
     ]),
 
     data() {
       return {
         kanbanData: [],
         boardName: '',
+        subTaskComplete: 0,
         boards: 
         [
           {
@@ -482,12 +487,11 @@
       },
       createNewTask(value) {
         this.kanbanData[this.board].columns.map((column) => {
-          console.log(value.status, 'value.status');
            if (column.name === value.status) {
               column.tasks.push(value);
             }
         });
-      }
+      },
     },
     beforeMount() {
       this.feedData();

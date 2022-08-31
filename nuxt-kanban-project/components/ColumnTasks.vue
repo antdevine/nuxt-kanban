@@ -2,7 +2,7 @@
     <div>
         <h2>{{ columnName }}</h2>
         <div v-for="(task, index) in tasks" :key="index">
-            <TaskCard :task="task" />
+            <TaskCard :task="task" @openTask="openModal" />
         </div>
     </div>
 </template>
@@ -18,6 +18,11 @@ import TaskCard from "./TaskCard.vue";
         return {
             
         };
+    },
+    methods: {
+      openModal(value) {
+        console.log(value, 'task');
+      }
     },
     props: {
         tasks: {
